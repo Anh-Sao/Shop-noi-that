@@ -13,11 +13,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "supplier")
-public class SupplierEntity {
+public class SupplierEntity extends BaseEntity{
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+
 	
 	@Column
 	private String name;
@@ -27,6 +25,9 @@ public class SupplierEntity {
 	
 	@Column
 	private String email;
+	
+	@Column
+	private String address;
 	
 	@Column
 	private String phone;
@@ -42,13 +43,6 @@ public class SupplierEntity {
 		this.products = products;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;
@@ -72,6 +66,16 @@ public class SupplierEntity {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	
+	
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public String getPhone() {

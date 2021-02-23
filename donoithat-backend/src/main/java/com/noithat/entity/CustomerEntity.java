@@ -13,25 +13,23 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name = "customer")
-public class CustomerEntity{
+public class CustomerEntity extends BaseEntity{
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+
 
 	@Column
 	private String name;
 	
 	@Column
-	private int gender;
+	private boolean gender;
 	
 	@Column
 	private String phone;
 	
-	@Column
-	private Date birthday;
 	
 	@Column
 	private String email;
@@ -55,14 +53,6 @@ public class CustomerEntity{
 
 	public void setOrder(List<OrderEntity> order) {
 		this.order = order;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getUsername() {
@@ -89,11 +79,13 @@ public class CustomerEntity{
 		this.name = name;
 	}
 
-	public int getGender() {
+
+
+	public boolean isGender() {
 		return gender;
 	}
 
-	public void setGender(int gender) {
+	public void setGender(boolean gender) {
 		this.gender = gender;
 	}
 
@@ -105,13 +97,6 @@ public class CustomerEntity{
 		this.phone = phone;
 	}
 
-	public Date getBirthday() {
-		return birthday;
-	}
-
-	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
-	}
 
 	public String getEmail() {
 		return email;
