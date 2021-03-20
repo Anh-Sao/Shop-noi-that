@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{ad_layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+
+<body>
+    <div layout:fragment="main-content">
+        <section class="content-header">
+            <div class="container-fluid card p-2 m-0">
+                <div class="row">
+                    <div class="col px-3">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item">Quản lý</a></li>
+                            <li class="breadcrumb-item active"><a th:href="@{/admin/supplier}">Nhà cung cấp</a></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="card mb-4">
+                        <div class="row mx-2 mt-2">
+                            <div class="col-md-8 col-xs-12">
+                                <div class="alert alert-success  m-0 w-100 p-2 mt-2 pl-3" role="alert"
+                                    th:if="${success}">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <span th:text="${success}"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xs-12">
+                                <div class="w-100 p-2 d-flex flex-row align-items-center justify-content-end">
+                                    <button class="btn btn-primary mx-2" type="button" data-toggle="modal"
+                                        data-target="#saveModal" id="#modalCenter">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </button>
+                                    <form th:action="@{/admin/supplier/search}" method="get">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control bg-light border-1 small"
+                                                placeholder="Tim kiem khach hang ?" style="border-color: #3f51b5;"
+                                                name="keywork">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary" type="submit">
+                                                    <i class="fas fa-search fa-sm"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <form th:action="@{/admin/supplier}" id="formSubmit" method="get">
+                            <div class="table-responsive p-3">
+                                <table class="table table-bordered table-hover mb-4" id="">
+                                    <thead class="thead-light">
+                                        <tr class="text-center">
+                                            <th>Logo</th>
+                                            <th>Tên Nhà Cung Cấp</th>
+                                            <th>Số Điện Thoại</th>
+                                            <th>Email</th>
+                                            <th>Địa Chỉ</th>
+                                            <th colspan="2" style="width: 5%;">Thao Tác</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr class="text-center">
+                                            <th>Logo</th>
+                                            <th>Tên Nhà Cung Cấp</th>
+                                            <th>Số Điện Thoại</th>
+                                            <th>Email</th>
+                                            <th>Địa Chỉ</th>
+                                            <th colspan="2" style="width: 5%;">Thao Tác</th>
+                                        </tr>
+                                        <tr class="text-center">
+                                            <span th:text="${id}"></span>
+                                            <td style="vertical-align: middle;"><b>Tổng nhà cung cấp : <span
+                                                        class="text-primary">[[${totalItem}]]</span> </b> </td>
+                                            <td colspan="6">
+                                                <ul class="pagination m-0" id="pagination"></ul>
+                                                <input type="hidden" value="" id="page" name="page" />
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+
+                                        <tr th:each="supplier : ${suppliers}">
+                                            <td style="vertical-align: middle;" th:text="${supplier.logo}"></td>
+                                            <td style="vertical-align: middle;" th:text="${supplier.name}"></td>
+                                            <td style="vertical-align: middle;" th:text="${supplier.phone}"></td>
+                                            <td style="vertical-align: middle;" th:text="${supplier.email}"></td>
+                                            <td style="vertical-align: middle;" th:text="${supplier.address}"></td>
+                                            <td style="vertical-align: middle;">
+                                                <a th:href="@{/admin/supplier/find/{id}(id=${supplier.id})}"
+                                                    class="btn btn-sm btn-primary edit"><i data-toggle="tooltip"
+                                                        title="Thông tin" class="fas fa-info-circle"></i></a>
+                                                <!-- <a th:href="@{/admin/supplier/update/{id}(id=${supplier.id})}">edit</a> -->
+                                            </td>
+                                            <td style="vertical-align: middle;"><a href="#deleteModal"
+                                                    class="btn btn-sm btn-danger delete" data-toggle="modal"><i
+                                                        data-toggle="tooltip" title="Xóa"
+                                                        class="fas fa-trash-alt"></i></a>
+                                                <input type="hidden" id="id" th:value="${supplier.id}" />
+                                                <input type="hidden" id="name" th:value="${supplier.name}" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                        <!-- modal thêm khach hang -->
+                        <div class="modal fade" id="saveModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header " id="">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form th:action="@{/admin/supplier/save}" th:object="${supplier}" method="POST" enctype="multipart/form-data">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4 mb-0">
+                                                    <img src="resources/images/supplier/default-logo.png" alt=""
+                                                        style="width: 100%; height: 290px;" class="avatar">
+                                                    <input type="file" name="image" id="file" accept="image/*"
+                                                        onchange="readURL(this);" style="display: none;" th:field="*{logo}"/>
+                                                    <!-- file-model="supplierForm.logo" -->
+                                                    <input type="hidden" id="hiddenLogo">
+                                                    <div class="d-flex justify-content-center mt-3">
+                                                        <button class="btn btn-primary py-2"
+                                                            onclick="document.getElementById('file').click();return false;">Chọn
+                                                            Logo</button>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-8 mb-0">
+                                                    <div class="form-group">
+                                                        <label for="">Tên Nhà Cung Cấp</label> <input type="text"
+                                                            class="form-control" id="" placeholder="Tên nhà cung cấp"
+                                                            th:field="*{name}">
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label for="">Số Điên Thoại</label> <input type="text"
+                                                            class="form-control" id="" placeholder="SDT"
+                                                            th:field="*{phone}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="">Email</label> <input type="email"
+                                                            class="form-control" id="" placeholder="Email"
+                                                            th:field="*{email}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="inputAddress">Địa Chỉ</label> <input type="text"
+                                                            class="form-control" id="inputAddress" placeholder="Dia chi"
+                                                            th:field="*{address}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline-primary"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary" ng-submit="">Luu</button>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  modal sua khach hang -->
+                        <!-- <div class="modal fade" id="updateModal" tabindex="-1" role="dialog"
+                                aria-labelledby="deleteModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header d-flex justify-content-center">
+                                            <h5 class="modal-title text-uppercase text-primary font-weight-bold">
+                                                Thông
+                                                Tin Khách Hàng</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form th:object="${supplier}" th:action="@{/admin/supplier/update}" action="#" method="POST">
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="">Tên Khách Hàng</label>
+                                                        <input type="text" th:field="*{name}" class="form-control"
+                                                            id="name" placeholder="Tên Khách Hàng" />
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="">Gới Tính</label>
+                                                        <select class="form-control" th:field="*{gender}" id="gender">
+                                                            <option th:value="false" label="Nam"></option>
+                                                            <option th:value="true" label="Nữ"></option>
+                                                            </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="">Số Điện Thoại</label>
+                                                    <input type="text" th:field="*{phone}" class="form-control" id="phone"
+                                                        placeholder="Số Điện Thoại" />
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="">Email</label>
+                                                    <input type="email" th:field="*{email}" class="form-control" id="email"
+                                                        placeholder="Email" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Địa Chỉ</label>
+                                                    <textarea rows="2" th:field="*{address}" class="form-control" id="address"
+                                                        placeholder="Địa Chỉ"></textarea>
+                                                </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-outline-primary"
+                                                data-dismiss="modal" id="btnClose">Làm Mới</button>
+                                            <button type="submit" class="btn btn-primary">Cập
+                                                Nhật</button>
+                                                <input type="hidden" th:field="*{id}" class="form-control" name="id"/>
+
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            </div> -->
+                        <!--  modal xoa khach hang -->
+                        <!-- <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <form th:action='@{/admin/supplier/delete}' method="POST">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Xóa khách
+                                                    hàng ?</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>
+                                                    Bạn có muốn xóa khách hàng <b id="name"></b> ?
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-outline-primary"
+                                                    data-dismiss="modal">Thoát</button>
+                                                <button type="submit" class="btn btn-danger">Xóa</button>
+                                               <input type="hidden" id="id" name="id">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div> -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+</body>
+
+</html>

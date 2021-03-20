@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ShopNoiThat</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+  <!-- IonIcons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link th:href="@{/img/AdminLTELogo.png}" rel="icon">
+  <!-- Theme style -->
+  <link rel="stylesheet" th:href="@{/css/adminlte.min.css}">
+  <script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <base href="${pageContext.servletContext.contextPath}/">
+  <style>
+    .carousel-item {
+  height: 80vh;
+
+  background: no-repeat center center scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+  </style>
+</head>
+
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+    <!-- header -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light" th:replace = "admin/header ::header"> </nav>
+    <!-- menu -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4" th:replace="admin/menu ::menu"></aside>
+    <!-- content -->
+    <div class="content-wrapper" layout:fragment="main-content">
+      <section class="content pt-3">
+        <div class="container-fluid">
+          <header>
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+              <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+              </ol>
+              <div class="carousel-inner" role="listbox">
+                <!-- Slide One - Set the background image for this slide in the line below -->
+                <div class="carousel-item active" style="background-image: url('https://source.unsplash.com/LAaSoL0LrYs/1920x1080')">
+                  <div class="carousel-caption d-none d-md-block">
+                    <h2 class="display-4">First Slide</h2>
+                    <p class="lead">This is a description for the first slide.</p>
+                  </div>
+                </div>
+                <!-- Slide Two - Set the background image for this slide in the line below -->
+                <div class="carousel-item" style="background-image: url('https://source.unsplash.com/bF2vsubyHcQ/1920x1080')">
+                  <div class="carousel-caption d-none d-md-block">
+                    <h2 class="display-4">Second Slide</h2>
+                    <p class="lead">This is a description for the second slide.</p>
+                  </div>
+                </div>
+                <!-- Slide Three - Set the background image for this slide in the line below -->
+                <div class="carousel-item" style="background-image: url('https://source.unsplash.com/szFUQoyvrxM/1920x1080')">
+                  <div class="carousel-caption d-none d-md-block">
+                    <h2 class="display-4">Third Slide</h2>
+                    <p class="lead">This is a description for the third slide.</p>
+                  </div>
+                </div>
+              </div>
+              <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+              <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                  </a>
+            </div>
+          </header>
+        </div>
+
+      </section>
+
+
+      
+    </div>
+    <!-- Main Footer -->
+    <footer class="main-footer" th:replace="admin/footer ::footer"></footer>
+  </div>
+
+
+  <script th:src="@{/js/jquery.twbsPagination.js}" type="text/javascript"></script>
+  <!-- Bootstrap -->
+  <script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+  <!-- AdminLTE -->
+  <script th:src="@{/js/adminlte.js}"></script>
+
+  <!-- OPTIONAL SCRIPTS -->
+  <script th:href="@{/chart.js/Chart.min.js}"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script th:src="@{/js/demo.js}"></script>
+  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+  <script th:src="@{/js/pages/dashboard3.js}"></script>
+  <script>
+    $(document).ready(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+      $('table .delete').on('click', function () {
+        var id = $(this).parent().find('#id').val();
+        var name = $(this).parent().find('#name').val();
+        $('#deleteModal #id').val(id);
+        $('#deleteModal #name').text(name);
+      });
+
+      $('table .edit').on('click', function (event) {
+        event.preventDefault();
+        var href = $(this).attr('href');
+
+        $.get(href, function(customerUpdate, status){
+            $('#updateModal #id').val(customerUpdate.id);
+            $('#updateModal #name').val(customerUpdate.name);
+            $('#updateModal #phone').val(customerUpdate.phone);
+            $('#updateModal #gender').val($('#updateModal #gender option').eq(customerUpdate.gender).val());
+            $('#updateModal #email').val(customerUpdate.email);
+            $('#updateModal #address').val(customerUpdate.address);
+        });
+        $('#updateModal').modal('show');
+
+      });
+    });
+
+    
+    var totalPage = [[${totalPage}]];
+    var currentPage = [[${currentPage}]];
+    $(function () {
+      window.pagObj = $('#pagination').twbsPagination({
+        totalPages: totalPage,
+        visiblePages: 7,
+        startPage: currentPage,
+        onPageClick: function (event, page) {
+          if (currentPage != page) {
+            $('#page').val(page);
+            $('#formSubmit').submit();
+          }
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
