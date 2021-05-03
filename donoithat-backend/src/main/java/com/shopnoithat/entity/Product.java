@@ -1,10 +1,9 @@
-	package com.shopnoithat.entity;
-
-
+package com.shopnoithat.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 import javax.persistence.Table;
@@ -12,34 +11,32 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "product")
 public class Product extends BaseEntity {
-	
+
 	@Column(name = "title")
 	private String title;
-	
+
 	@Column(name = "count")
 	private int count;
-	
+
 	@Column(name = "price")
 	private double price;
-	
-	@Column(name = "thumbnail")
+
+	@Lob
 	private String thumbnail;
-		
-	@Column(name = "content")
+
+	@Lob
 	private String content;
-	
+
 	@ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
-	
+	@JoinColumn(name = "category_id")
+	private Category category;
+
 	@ManyToOne
-    @JoinColumn(name = "supplier_id")
-    private Supplier supplier;
-	
+	@JoinColumn(name = "supplier_id")
+	private Supplier supplier;
+
 //    @OneToMany(mappedBy = "product")
 //    private List<OrderDetailEntity> orderDetail = new ArrayList<>();
-  
-
 
 	public String getTitle() {
 		return title;
@@ -56,7 +53,6 @@ public class Product extends BaseEntity {
 	public void setThumbnail(String thumbnail) {
 		this.thumbnail = thumbnail;
 	}
-
 
 	public int getCount() {
 		return count;
@@ -86,8 +82,8 @@ public class Product extends BaseEntity {
 		return category;
 	}
 
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setCategory(Category category_id) {
+		this.category = category_id;
 	}
 
 	public Supplier getSupplier() {
@@ -106,5 +102,5 @@ public class Product extends BaseEntity {
 //		this.orderDetail = orderDetail;
 //	}
 //	
-	
+
 }

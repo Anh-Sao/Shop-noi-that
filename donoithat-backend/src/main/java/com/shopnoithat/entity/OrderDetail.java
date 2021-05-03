@@ -82,8 +82,4 @@ public class OrderDetail {
 		this.orderesult = orderesult;
 	}
 
-
-	
-
-
 }

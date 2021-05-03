@@ -11,26 +11,22 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "supplier")
-public class Supplier extends BaseEntity{
+public class Supplier extends BaseEntity {
 
-
-	
 	@Column
 	private String name;
-		
+
 	@Column
 	private String email;
 	@Column
 	private String phone;
-	
+
 	@Column
 	private String address;
 
 	@Column
 	private String logo;
-	
 
-	
 	@OneToMany(mappedBy = "supplier")
 	private List<Product> products = new ArrayList<>();
 
@@ -41,7 +37,6 @@ public class Supplier extends BaseEntity{
 	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
-
 
 	public String getName() {
 		return name;
@@ -67,8 +62,6 @@ public class Supplier extends BaseEntity{
 		this.email = email;
 	}
 
-	
-	
 	public String getAddress() {
 		return address;
 	}
@@ -92,6 +85,5 @@ public class Supplier extends BaseEntity{
 	public void setNews(List<Product> products) {
 		this.products = products;
 	}
-	
-	
+
 }
