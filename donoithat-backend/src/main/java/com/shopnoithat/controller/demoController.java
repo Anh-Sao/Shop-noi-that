@@ -53,4 +53,10 @@ public class demoController {
 		model.addAttribute("list",product);
 		return "demo/detail";
 	}
+	
+	@GetMapping("/demo/checkout")
+	public String checkout(Model model) {
+		model.addAttribute("ten",cate.getAllCategory());
+		return "demo/checkout";
+	}
 }
