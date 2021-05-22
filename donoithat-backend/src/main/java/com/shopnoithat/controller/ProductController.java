@@ -58,6 +58,6 @@ public class ProductController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "admin/products/save_products";
+		return "redirect:/admin/products/save_products";
 	}
 }

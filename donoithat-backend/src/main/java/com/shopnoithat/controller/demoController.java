@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.shopnoithat.entity.Category;
+import com.shopnoithat.entity.OrderDetail;
 import com.shopnoithat.entity.Product;
 import com.shopnoithat.repository.FileDBRepository;
+import com.shopnoithat.service.CartService;
 import com.shopnoithat.service.CateoryService;
 import com.shopnoithat.service.FileStorageService;
 
@@ -26,6 +28,10 @@ public class demoController {
 	@Autowired
 	private CateoryService cate;
 	
+	@Autowired
+	private CartService cartService;
+	
+	public List<OrderDetail> list;
 	@GetMapping("/demo/text")
 	public String text() {
 
@@ -54,9 +60,22 @@ public class demoController {
 		return "demo/detail";
 	}
 	
-	@GetMapping("/demo/checkout")
-	public String checkout(Model model) {
+	@GetMapping("/demo/checkout/{id}")
+	public String checkout(Model model,@PathVariable("id") long id) {
+		OrderDetail cart = new OrderDetail();
+		Product product = f.findById(id);
+		
 		model.addAttribute("ten",cate.getAllCategory());
 		return "demo/checkout";
 	}
+	@GetMapping("/demo/cart")
+	public String cart(Model model) {
+		
+		
+		
+		model.addAttribute("listCart",list);
+		return "demo/checkout";
+	}
+	
+
 }

@@ -13,11 +13,20 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 </head>
 <body>
-	<h2 class="text-center">Đây là trang chi tiết</h2> <br>
+	
 	<div class="container my-2" th:object="${list}">
+	<div>
+	<button type="button" class="btn btn btn-info float-right pb-4"> Giỏ hàng 
+	
+	<span class="badge badge-light">0</span>
+	
+	</button>
+	</div> <br>
+	<h2 class="text">Đây là trang chi tiết</h2> <br>
+	
 		<div class="row">
 			<div class="col-5">
-				<img alt="" th:src="*{'data:image/jpeg;base64,'+{thumbnail}}" style="height: 18rem;" class="card-img-top">
+				<img alt="" th:src="*{'data:image/jpeg;base64,'+{thumbnail}}" style="height:350px ;width:350px" class="card-img-top">
 			</div>
 			<div class="col-7">
 				<h5 th:text="*{title}"></h5>
@@ -26,8 +35,8 @@
 				
 				<div>
 					<input type="number" min="1" value="1">
-					<a th:href="@{/}" class="btn btn-success">thêm vào giỏ</a>
-					<a th:href="@{/demo/checkout}" class="btn btn-success">mua ngay</a>
+					<a th:href="@{'/demo/addToCart/'+ *{id} }" id="btn-add-to-cart" class="btn btn-success">thêm vào giỏ</a>
+					<a th:href="@{/demo/checkout/+*{id}}" class="btn btn-success">mua ngay</a>
 				</div>
 			</div>
 			
@@ -39,5 +48,7 @@
 			</div>
 		</div>
 	</div>
+	
+	<script th:src="@{/js/demo/add_to_cart.js}"></script>
 </body>
 </html>
